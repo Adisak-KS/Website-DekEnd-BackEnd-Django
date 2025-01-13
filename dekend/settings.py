@@ -38,11 +38,34 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders'
     'drf_yasg',
     'api',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES':(
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60), # ระยะเวลาของ Access Token คือ 1 ชั่วโมง
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1), # ระยะเวลาของ Refresh Token คือ 1 วัน
+    'ROTATE_REFRESH_TOKENS': True, # หมุนเวลา Refresh Token
+    'BLACKLIST_AFTER_ROTATION': True, # เปิดใช้งานการตรวจสอบ Blacklist
+    'ALGORITHM': 'HS256', # อัลกอริทึมการเข้ารหัส
+    'SIGNING_KEY': SECRET_KEY, # คีย์สําหรับการเข้ารหัส
+    'AUTH_HEADER_TYPES': ('Bearer',), # ประเภทของ Header สำหรับการอนุญาต
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',), # คลาสของสิทธิ์การเข้าสู่ระบบ
+    'UPDATE_LAST_LOGIN': True, # อัพเดทข้อมูลล่าสุดของผู้ใช้งาน
+}
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # เพิ่ม middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -93,7 +116,6 @@ DATABASES = {
         'PORT': '6543',
     }
 # postgresql://postgres.vptymhywicvcmfcbuesv:[YOUR-PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
-# postgresql://postgres.vptymhywicvcmfcbuesv:[YOUR-PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
 }
 
 
@@ -115,13 +137,45 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# ตั้งต่าการอนุญาต Cors
+# อนุญาตทุกโดเมนให้เข้าถึง (เปิด Cors ทั้งหมด)
+CORS_ORIGIN_ALLOW_ALL = True
+
+# อนุญาตเฉพาะโดเมนที่ต้องการ
+CORS_ALLOW_ALL_ORIGINS = True
+
+# อนุญาตเฉพาะโดเมนที่ต้องการ
+# CORS_ALLOWED_ORIGINS = [
+#       'https://example.com',
+#       'https://sub.example.com',
+#       'http://localhost:3000',
+#       'http://127.0.0.1:3000'
+# ]
+
+# ภ้าต้องการกำหนด HTTP Method ที่อนุญาต เช่น GET, POST, PUT, PATCH, DELETE
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
+
+# ภ้าต้องการกำหนด Header ที่อนุญาต เช่น Authorization, Content-Type
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+    "x-csrftoken",
+    "x-requested-with",
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bangkok'
 
 USE_I18N = True
 

@@ -15,7 +15,7 @@ router.register(r'work-experiences', WorkExperienceViewSet)
 urlpatterns =[
     path('auth/register/', RegisterView.as_view(), name='auth_register'),
     path('auth/login/', TokenObtainPairView.as_view(), name='auth_login'),
-    path('auth/refresh/', TokenRefreshView.as_view(), name='auth_refresh'),
     path('auth/logout/', LogoutView.as_view(), name='auth_logout'),
-    path('', include(router.urls)),
+    path('auth/refresh/', TokenRefreshView.as_view(), name='auth_refresh'),
+    path('', include(router.urls)), #เพิ่มเส้นทางสำหรับการเข้าถึงช้อมูลทั้งหมดของ router
 ]

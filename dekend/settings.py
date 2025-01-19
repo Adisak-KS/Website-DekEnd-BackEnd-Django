@@ -122,7 +122,9 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT','6543'),
-        'OPTIONS': '-c timezone=Asia/Bangkok',
+        'OPTIONS': {
+            'options': '-c timezone=Asia/Bangkok',
+        },
     }
 # postgresql://postgres.vptymhywicvcmfcbuesv:[YOUR-PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
 }

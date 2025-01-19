@@ -55,7 +55,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES':(
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated', # ค่าเริ่มต้นที่บังคับให้ต้อง Authenticate ทุก Endpoint
+        # 'rest_framework.permissions.AllowAny', #เปลี่ยนค่าเริ่มต้นให้เข้าถึงได้หมด 
     ),
 }
 
@@ -121,6 +122,7 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT','6543'),
+        'OPTIONS': '-c timezone=Asia/Bangkok',
     }
 # postgresql://postgres.vptymhywicvcmfcbuesv:[YOUR-PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
 }
@@ -201,3 +203,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # กำหนดชื่อตารางสำหรับตรวจสอบสิทธิ์
 AUTH_USER_MODEL = 'api.User'
+
+# Swagger settings
+SWAGGER_SETTINGS = {
+   'USE_SESSION_AUTH': False, # ปิดการใช้งาน Django Login
+   'SECURITY_DEFINITIONS': {
+       'Bearer': {
+           'type': 'apiKey',
+           'name': 'Authorization',
+           'in': 'header'
+       }
+   },
+   'SECURITY': [
+       {
+           'Bearer': []
+       }
+   ]
+}

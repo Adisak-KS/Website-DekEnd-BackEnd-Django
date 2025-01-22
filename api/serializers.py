@@ -69,3 +69,9 @@ class LogoutView(APIView):
             return Response(status=204)
         except Exception:
             return Response(status=400)
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'first_name', 'last_name', 'tel')
+        read_only_fields = ('id',)
